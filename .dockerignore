@@ -1,0 +1,11 @@
+# Keep the image lean: the dataset and trained model are large and
+# regenerable, so they are supplied at run time (mounted volumes)
+# instead of being baked into the image.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.git/
+data/
+models/
+outputs/

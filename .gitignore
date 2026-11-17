@@ -1,0 +1,10 @@
+# Raw data, downloaded datasets and trained models (large / regenerable)
+data/
+models/*.joblib
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
