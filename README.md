@@ -60,12 +60,29 @@ Confusion matrix (rows = true, columns = predicted): 11,178 true negatives, 1,32
 │   ├── train.py          # TF-IDF + LogisticRegression training (Stage 2)
 │   └── evaluate.py       # held-out evaluation + error analysis (Stage 3)
 ├── predict.py            # prediction CLI (Stage 4)
+├── tests/                # automated tests (Week 3): preprocessing, data loading,
+│                         # training pipeline, prediction CLI, error notes
 ├── data/                 # dataset files (git-ignored)
 ├── models/               # trained model (git-ignored)
 ├── outputs/              # EDA and evaluation reports
 ├── Dockerfile            # container setup (Stage 5)
 └── requirements.txt
 ```
+
+## Running tests
+
+```bash
+pip install -r requirements.txt
+python -m pytest tests/ -q
+# 30 passed
+```
+
+The suite covers text cleaning, data loading (including the canonical
+25,000 / 25,000 splits), the training pipeline, the prediction CLI and
+the evaluation error notes. Pipeline tests train on 8 hand-written
+reviews so the suite runs in ~10 seconds; the two CLI tests that need
+the real saved model skip gracefully on a fresh checkout until
+`python -m src.train` has been run.
 
 ## Run with Docker
 
