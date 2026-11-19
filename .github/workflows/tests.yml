@@ -1,0 +1,39 @@
+# Week 3 Stage 2 — run the pytest suite on every push and pull request.
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download IMDb dataset
+        # data/ is git-ignored (40 MB), so CI fetches the same Parquet
+        # files the project was built with from the Hugging Face mirror
+        # (stanfordnlp/imdb, plain_text config) — byte-identical to the
+        # local data/train.parquet and data/test.parquet.
+        run: |
+          mkdir -p data
+          curl -fsSL -o data/train.parquet https://huggingface.co/datasets/stanfordnlp/imdb/resolve/main/plain_text/train-00000-of-00001.parquet
+          curl -fsSL -o data/test.parquet https://huggingface.co/datasets/stanfordnlp/imdb/resolve/main/plain_text/test-00000-of-00001.parquet
+
+      - name: Run tests
+        # The two real-model CLI tests skip in CI (no trained model is
+        # committed); everything else runs: 28 passed, 2 skipped.
+        run: python -m pytest tests/ -q
