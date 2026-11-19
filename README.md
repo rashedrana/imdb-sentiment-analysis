@@ -1,5 +1,7 @@
 # IMDb Movie Review Sentiment Analysis
 
+[![Tests](https://github.com/rashedrana/imdb-sentiment-analysis/actions/workflows/tests.yml/badge.svg)](https://github.com/rashedrana/imdb-sentiment-analysis/actions/workflows/tests.yml)
+
 Sentiment analysis on the full IMDb movie reviews dataset — TF-IDF + Logistic Regression, with full evaluation.
 
 ## Dataset
@@ -54,6 +56,7 @@ Confusion matrix (rows = true, columns = predicted): 11,178 true negatives, 1,32
 ## Project structure
 
 ```
+├── .github/workflows/tests.yml  # CI: runs the test suite on push/PR
 ├── src/
 │   ├── data_loading.py   # loads train/test splits into pandas
 │   ├── preprocessing.py  # text cleaning (shared by train/evaluate/predict)
@@ -83,6 +86,16 @@ the evaluation error notes. Pipeline tests train on 8 hand-written
 reviews so the suite runs in ~10 seconds; the two CLI tests that need
 the real saved model skip gracefully on a fresh checkout until
 `python -m src.train` has been run.
+
+## Continuous integration
+
+GitHub Actions runs the test suite on every push and pull request to
+`main` (`.github/workflows/tests.yml`, Python 3.12). The dataset is
+git-ignored, so the workflow downloads the same Parquet files from the
+Hugging Face mirror (`stanfordnlp/imdb`, `plain_text` config) before
+running pytest. In CI the suite reports **28 passed, 2 skipped** — the
+two skipped tests are the real-model CLI tests, which need a trained
+model that is not committed to the repo.
 
 ## Run with Docker
 
