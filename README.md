@@ -32,10 +32,23 @@ python -m src.evaluate
 # Predict the sentiment of a review
 python predict.py "This movie was a fantastic, gripping ride from start to finish."
 # Sentiment: positive
-# Confidence: 94.41%
+# Confidence: 81.10%
 ```
 
 You can also pipe a review in via stdin (`echo "I hated every minute." | python predict.py`). Passing no text prints a short hint instead of an error.
+
+## Try the demo
+
+An interactive web demo (Gradio) — type a review and see the predicted sentiment with the model's confidence for both classes:
+
+```bash
+pip install -r requirements-demo.txt
+python app.py
+```
+
+Then open http://127.0.0.1:7860 in your browser. Three example reviews are pre-loaded (two positive, one negative — all verified against the CLI: 81.10%, 96.35% and 90.69% confidence). If no trained model is present, the demo trains one first (under a minute, needs the dataset in `data/`).
+
+The demo runs locally only — it is not deployed anywhere yet. Demo dependencies live in `requirements-demo.txt` (just Gradio) so the main `requirements.txt` and CI stay lean.
 
 ## Results
 
@@ -63,6 +76,8 @@ Confusion matrix (rows = true, columns = predicted): 11,178 true negatives, 1,32
 │   ├── train.py          # TF-IDF + LogisticRegression training (Stage 2)
 │   └── evaluate.py       # held-out evaluation + error analysis (Stage 3)
 ├── predict.py            # prediction CLI (Stage 4)
+├── app.py                # interactive Gradio demo (Week 3 Stage 3)
+├── requirements-demo.txt # demo-only dependency (Gradio)
 ├── tests/                # automated tests (Week 3): preprocessing, data loading,
 │                         # training pipeline, prediction CLI, error notes
 ├── data/                 # dataset files (git-ignored)
