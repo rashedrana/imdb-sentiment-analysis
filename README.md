@@ -4,6 +4,8 @@
 
 Sentiment analysis on the full IMDb movie reviews dataset — TF-IDF + Logistic Regression, with full evaluation.
 
+Test accuracy **89.9%** · ROC AUC **0.963** · 30 automated tests, CI green · interactive demo included.
+
 ## Dataset
 
 The Stanford aclImdb corpus (Maas et al., 2011): 50,000 labelled movie reviews, split into 25,000 training and 25,000 test reviews, balanced 50/50 positive/negative. The dataset files live in `data/` (git-ignored — download them yourself, see below).
@@ -73,17 +75,20 @@ Confusion matrix (rows = true, columns = predicted): 11,178 true negatives, 1,32
 ├── src/
 │   ├── data_loading.py   # loads train/test splits into pandas
 │   ├── preprocessing.py  # text cleaning (shared by train/evaluate/predict)
-│   ├── train.py          # TF-IDF + LogisticRegression training (Stage 2)
-│   └── evaluate.py       # held-out evaluation + error analysis (Stage 3)
-├── predict.py            # prediction CLI (Stage 4)
-├── app.py                # interactive Gradio demo (Week 3 Stage 3)
+│   ├── train.py          # TF-IDF + LogisticRegression training
+│   └── evaluate.py       # held-out evaluation + error analysis
+├── predict.py            # prediction CLI
+├── app.py                # interactive Gradio demo
+├── entrypoint.sh         # Docker entrypoint: train if no model, then predict
 ├── requirements-demo.txt # demo-only dependency (Gradio)
-├── tests/                # automated tests (Week 3): preprocessing, data loading,
+├── tests/                # automated tests: preprocessing, data loading,
 │                         # training pipeline, prediction CLI, error notes
 ├── data/                 # dataset files (git-ignored)
 ├── models/               # trained model (git-ignored)
-├── outputs/              # EDA and evaluation reports
-├── Dockerfile            # container setup (Stage 5)
+├── outputs/              # EDA and evaluation reports (eda.md, evaluation.md)
+├── Dockerfile            # container setup
+├── verify_stage1.py      # local verification scripts (dev only)
+├── verify_stage2.py
 └── requirements.txt
 ```
 
